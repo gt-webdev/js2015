@@ -235,7 +235,8 @@ var y = x + f(a + b).toString();
                     </section>
 
                     <section data-state="s9">
-                        <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-7.9.1"><h2>The ASI Rules</h2></a>
+                        <h2>The ASI Rules</h2>
+                        <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-7.9.1">The Spec</a>
                         <p><a href="https://github.com/npm/npm/blob/master/doc/misc/npm-coding-style.md#semicolons">Npm</a> actually enforces using no semicolons.</p>
                         <pre><code id="s9" class="hljs javascript" contenteditable="true" data-trim="">
 //This is bad
@@ -253,7 +254,7 @@ function() {
                     <section data-state="s10">
                         <h2>with statement</h2>
                         <p>Example of good use of with</p>
-                        <pre><code id="s10" class="hljs javascript" contenteditable="true" data-trim="">
+                        <pre><code class="hljs javascript"data-trim="">
 var a, x, y;
 var r = 10;
 
@@ -263,25 +264,99 @@ with (Math) {
     y = r * sin(PI / 2);
 }
                         </code></pre>
-                        <p></p>
-                    </section>
-                    <section data-state="s11">
-                        <h2>with statement</h2>
                         <p>Example of bad use</p>
-                        <pre><code id="s11" class="hljs javascript" contenteditable="true" data-trim="">
+                        <pre><code id="s10" class="hljs javascript" contenteditable="true" data-trim="">
 function f(x, o) {
     with (o) 
     alert(x);
 }
 f(2, { x:1 });
                         </code></pre>
-                        <p></p>
                     </section>
-                    <section data-state="s12">
-                        <h2>Type Coersion</h2>
-                        <pre><code id="s12" class="hljs javascript" contenteditable="true" data-trim="">
+                </section>
+
+                <section>
+                    <section>
+                    <h2>JS WAT</h2>
+                    <a href="https://www.destroyallsoftware.com/talks/wat">Video</a>
+                    </section>
+                    <section>
+                        <h2>Let's Analysis!</h2>
+                        <p>Note: Run these from a js console not the embedded editor.</p>
+                        <pre><code class="hljs javascript" data-trim="">
+[] + []; //""
+[] + {}; //"[object Object]"
+{} + []; //0
+{} + {}; //NaN
                         </code></pre>
-                        <p></p>
+                    </section>
+                    <section>
+                        <h2>Understanding Type Coersion</h2>
+                        <p>Javascripts type coersion system makes excessive use of the following methods:</p>
+                        <ul>
+                            <li>toString()</li>
+                            <li>valueOf()</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Addition</h2>
+                        <ol>
+                            <li>If either operand is an object convert it to a primative.</li>
+                            <ol>
+                                <li>If valueOf is a primitve use that.<br>(most objects don't return a primative)</li>
+                                <li>Otherwise call toString</li>
+                            </ol>
+                            <li>If either operand is a string, convert the other to a string.</li>
+                            <li>Otherwise convert primitive operands to numbers, and add them together.</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h2>First Example</h2>
+                        <pre><code class="hljs javascript" data-trim="">
+[] + [];
+                        </code></pre>
+<span class="fragment">
+                        <p>It's doing something like this.</p>
+                        <pre><code class="hljs javascript" data-trim="">
+[].toString() + [].toString();
+                        </code></pre>
+</span>
+                    </section>
+                    <section>
+                        <h2>Second Example</h2>
+                        <pre><code class="hljs javascript" data-trim="">
+[] + {};
+                        </code></pre>
+<span class="fragment">
+                        <p>It's doing something like this.</p>
+                        <pre><code class="hljs javascript" data-trim="">
+[].toString() + Object().toString();
+                        </code></pre>
+</span>
+                    </section>
+                    <section>
+                        <h2>Third Example</h2>
+                        <pre><code class="hljs javascript" data-trim="">
+{} + [];
+                        </code></pre>
+<span class="fragment">
+                        <p>It's doing something like this.</p>
+                        <pre><code class="hljs javascript" data-trim="">
+Number([]);
+                        </code></pre>
+</span>
+                    </section>
+                    <section>
+                        <h2>Fourth Example</h2>
+                        <pre><code class="hljs javascript" data-trim="">
+{} + {};
+                        </code></pre>
+<span class="fragment">
+                        <p>It's doing something like this.</p>
+                        <pre><code class="hljs javascript" data-trim="">
+Number({});
+                        </code></pre>
+</span>
                     </section>
                 </section>
 
@@ -309,6 +384,7 @@ document.querySelector('.hljs');
                         </code></pre>
                     </section>
                 </section>
+
 
                 <section>
                     <h2>References</h2>
